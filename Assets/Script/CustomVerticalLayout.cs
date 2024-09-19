@@ -8,9 +8,6 @@ public class CustomVerticalLayout : MonoBehaviour
     #region Private Fields
 
     [SerializeField, OnValueChanged("ApplyLayout")]
-    private float _spacing;
-
-    [SerializeField, OnValueChanged("ApplyLayout")]
     private Transform _standardPoint;
 
     private List<Transform> _prevChilds = new();
@@ -62,7 +59,7 @@ public class CustomVerticalLayout : MonoBehaviour
                 child.position = new Vector3
                 (
                     _standardPoint.position.x,
-                    prevChildYPos - spriteHeight - _spacing,
+                    prevChildYPos - spriteHeight,
                     _standardPoint.position.z
                 );
 
