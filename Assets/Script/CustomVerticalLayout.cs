@@ -18,6 +18,12 @@ public class CustomVerticalLayout : MonoBehaviour
 
     private void Start()
     {
+        if(Application.isPlaying)
+        {
+            this.enabled = false;
+            return;
+        }
+
         _prevChilds = GetAllChilds();
         ApplyLayout();
     }

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class ColumnLetterMovement : MonoBehaviour
@@ -9,8 +10,20 @@ public class ColumnLetterMovement : MonoBehaviour
     [SerializeField] private float          _scrollSpeed;
     [SerializeField] private bool           _canMove;
 
-    private Vector3 _origPos;
+    private Vector3 _origPointPos;
+    private Vector3 _midPointPos;
     private Vector3 _endPointPos;
+
+    private bool    _canFireEvent = true;
+
+    private const int ROW_COUNT = 3;
+
+    #endregion
+
+    #region Public Events
+
+    public event EventHandler OnReachedMidPoint;
+    public event EventHandler OnReachedEndPoint;
 
     #endregion
 
@@ -18,10 +31,9 @@ public class ColumnLetterMovement : MonoBehaviour
 
     private void Start()
     {
-        _origPos     = _standardPoint.position;
-        _endPointPos = CalculateEndPointPos();
-        Debug.Log($"{_letter.bounds.size}");
-        Debug.Log($"{_letter.bounds.extents}");
+        _origPointPos = _standardPoint.position;
+        _midPointPos  = CalculateMidPointPos();
+        _endPointPos  = CalculateEndPointPos();
     }
 
     private void Update()
@@ -36,9 +48,23 @@ public class ColumnLetterMovement : MonoBehaviour
 
     #region Private Helper Methods
 
+    private Vector3 CalculateMidPointPos()
+    {
+        float moveDistance = ROW_COUNT * _letter.bounds.size.y;
+
+        Vector3 midPointPos = new
+        (
+            _standardPoint.position.x,
+            _standardPoint.position.y - moveDistance,
+            _standardPoint.position.z
+        );
+
+        return midPointPos;
+    }
+
     private Vector3 CalculateEndPointPos()
     {
-        float moveDistance = (transform.childCount - 3) * _letter.bounds.size.y;
+        float moveDistance = (transform.childCount - ROW_COUNT) * _letter.bounds.size.y;
 
         Vector3 endPointPos = new
         (
@@ -62,15 +88,33 @@ public class ColumnLetterMovement : MonoBehaviour
 
         _standardPoint.position = stdPointPos;
 
+        if(HasReachedMidPoint() && _canFireEvent)
+        {
+            OnReachedMidPoint?.Invoke(this, EventArgs.Empty);
+            _canFireEvent = false;
+        }
+
         if(HasReachedEndPoint())
         {
-            _standardPoint.position = _origPos;
+            OnReachedEndPoint?.Invoke(this, EventArgs.Empty);
+            ResetToOrigPoint();
         }
+    }
+
+    private bool HasReachedMidPoint()
+    {
+        return _standardPoint.position.y <= _midPointPos.y;
     }
 
     private bool HasReachedEndPoint()
     {
         return _standardPoint.position.y <= _endPointPos.y;
+    }
+
+    private void ResetToOrigPoint()
+    {
+        _standardPoint.position = _origPointPos;
+        _canFireEvent = true;
     }
 
     #endregion
