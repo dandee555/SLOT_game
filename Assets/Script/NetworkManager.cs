@@ -4,6 +4,10 @@ using System.Collections;
 using System;
 using System.Text;
 using UnityEngine.Networking;
+using System.Collections.Generic;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System.Linq;
 
 public class NetworkManager : MonoBehaviour
 {
@@ -51,9 +55,12 @@ public class NetworkManager : MonoBehaviour
         else
         {
             string responseJson = request.downloadHandler.text;
-            Debug.Log($"response : {responseJson}");
-        }
+            JObject jsonObject  = JObject.Parse(responseJson);
 
+            List<string> currentRoll = jsonObject["CURRENT_ROLL"].ToObject<List<string>>();
+
+            
+        }
 
         bool ConnectionError() => request.result == UnityWebRequest.Result.ConnectionError;
         bool ProtocalError()   => request.result == UnityWebRequest.Result.ProtocolError;
