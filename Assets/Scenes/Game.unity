@@ -1488,7 +1488,7 @@ MonoBehaviour:
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 0.5882353}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.19607843}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 0.39215687}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
@@ -1759,7 +1759,7 @@ MonoBehaviour:
   _letter: {fileID: 2011414347}
   _standardPoint: {fileID: 687690194}
   _scrollSpeed: 13
-  _canMove: 1
+  _canMove: 0
 --- !u!114 &687690193
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1809,9 +1809,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 981c5af55da4a1d44bf8098a1668f088, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _letterID: 4
   _letterRenderer: []
   _letterSprites: {fileID: 11400000, guid: e8d6f6a9d0b8114499543d1d5ea8ba26, type: 2}
   _letterMovement: {fileID: 687690192}
+  _networkManager: {fileID: 171777824}
 --- !u!1 &708719476
 GameObject:
   m_ObjectHideFlags: 0
@@ -3040,7 +3042,7 @@ MonoBehaviour:
   _letter: {fileID: 1857178493}
   _standardPoint: {fileID: 1101650598}
   _scrollSpeed: 13
-  _canMove: 1
+  _canMove: 0
 --- !u!114 &1101650601
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3053,9 +3055,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 981c5af55da4a1d44bf8098a1668f088, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _letterID: 0
   _letterRenderer: []
   _letterSprites: {fileID: 11400000, guid: e8d6f6a9d0b8114499543d1d5ea8ba26, type: 2}
   _letterMovement: {fileID: 1101650600}
+  _networkManager: {fileID: 171777824}
 --- !u!1 &1173638655
 GameObject:
   m_ObjectHideFlags: 0
@@ -3979,7 +3983,7 @@ MonoBehaviour:
   _letter: {fileID: 484721667}
   _standardPoint: {fileID: 1722627732}
   _scrollSpeed: 13
-  _canMove: 1
+  _canMove: 0
 --- !u!114 &1722627731
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4029,9 +4033,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 981c5af55da4a1d44bf8098a1668f088, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _letterID: 3
   _letterRenderer: []
   _letterSprites: {fileID: 11400000, guid: e8d6f6a9d0b8114499543d1d5ea8ba26, type: 2}
   _letterMovement: {fileID: 1722627730}
+  _networkManager: {fileID: 171777824}
 --- !u!1 &1743685483
 GameObject:
   m_ObjectHideFlags: 0
@@ -4570,7 +4576,7 @@ MonoBehaviour:
   _letter: {fileID: 292398226}
   _standardPoint: {fileID: 1980859420}
   _scrollSpeed: 13
-  _canMove: 1
+  _canMove: 0
 --- !u!114 &1980859419
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4620,9 +4626,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 981c5af55da4a1d44bf8098a1668f088, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _letterID: 1
   _letterRenderer: []
   _letterSprites: {fileID: 11400000, guid: e8d6f6a9d0b8114499543d1d5ea8ba26, type: 2}
   _letterMovement: {fileID: 1980859418}
+  _networkManager: {fileID: 171777824}
 --- !u!1 &2001615488
 GameObject:
   m_ObjectHideFlags: 0
@@ -4657,7 +4665,7 @@ MonoBehaviour:
   _letter: {fileID: 1422060152}
   _standardPoint: {fileID: 2001615491}
   _scrollSpeed: 13
-  _canMove: 1
+  _canMove: 0
 --- !u!114 &2001615490
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4707,9 +4715,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 981c5af55da4a1d44bf8098a1668f088, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _letterID: 2
   _letterRenderer: []
   _letterSprites: {fileID: 11400000, guid: e8d6f6a9d0b8114499543d1d5ea8ba26, type: 2}
   _letterMovement: {fileID: 2001615489}
+  _networkManager: {fileID: 171777824}
 --- !u!1 &2011414346
 GameObject:
   m_ObjectHideFlags: 0

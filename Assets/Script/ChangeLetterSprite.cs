@@ -6,6 +6,8 @@ public class ChangeLetterSprite : MonoBehaviour
     #region Private Fields
 
     [SerializeField]
+    private int                  _letterID;
+    [SerializeField]
     private List<SpriteRenderer> _letterRenderer = new();
     [SerializeField]
     private LettersSO            _letterSprites;
@@ -13,7 +15,11 @@ public class ChangeLetterSprite : MonoBehaviour
     [SerializeField]
     private ColumnLetterMovement _letterMovement;
 
+    [SerializeField]
+    private NetworkManager       _networkManager;
+
     private const int RAW_COUNT = 3;
+    private const int COL_COUNT = 5;
 
     #endregion
 
@@ -25,12 +31,18 @@ public class ChangeLetterSprite : MonoBehaviour
 
         _letterMovement.OnReachedMidPoint += OnReachedMidPoint;
         _letterMovement.OnReachedEndPoint += OnReachedEndPoint;
+
+        _networkManager.OnGetResponseData += OnGetResponseData;
     }
+
+    
 
     private void OnDestroy()
     {
         _letterMovement.OnReachedMidPoint -= OnReachedMidPoint;
         _letterMovement.OnReachedEndPoint -= OnReachedEndPoint;
+
+        _networkManager.OnGetResponseData -= OnGetResponseData;
     }
 
     #endregion
@@ -51,6 +63,22 @@ public class ChangeLetterSprite : MonoBehaviour
             }
         }
     }
+
+    private Sprite GetRandomSprite()
+    {
+        int rand = Random.Range(0, _letterSprites.Letters.Count);
+
+        return _letterSprites.Letters[rand];
+    }
+
+    private Sprite GetSprite(int index)
+    {
+        return _letterSprites.Letters[index];
+    }
+
+    #endregion
+
+    #region Event Handler Methods
 
     private void OnReachedMidPoint(object sender, System.EventArgs e)
     {
@@ -75,11 +103,16 @@ public class ChangeLetterSprite : MonoBehaviour
         }
     }
 
-    private Sprite GetRandomSprite()
+    private void OnGetResponseData(object sender, List<char> e)
     {
-        int rand = Random.Range(0, _letterSprites.Letters.Count);
+        int rendererIndex = 0;
 
-        return _letterSprites.Letters[rand];
+        for(int i = _letterID; i < e.Count; i += COL_COUNT)
+        {
+            char responseChar = e[i];
+            _letterRenderer[rendererIndex].sprite = GetSprite(responseChar - 'a');
+            rendererIndex++;
+        }
     }
 
     #endregion

@@ -5,15 +5,19 @@ using System;
 using System.Text;
 using UnityEngine.Networking;
 using System.Collections.Generic;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using System.Linq;
 
 public class NetworkManager : MonoBehaviour
 {
     #region Private Fields
 
     private const string GATEWAY_URL = @"https://pas2-game-rd-lb.sayyogames.com:61337/api/unityexam/getroll";
+
+    #endregion
+
+    #region Public Event
+
+    public event EventHandler<List<char>> OnGetResponseData;
 
     #endregion
 
@@ -55,11 +59,12 @@ public class NetworkManager : MonoBehaviour
         else
         {
             string responseJson = request.downloadHandler.text;
+            Debug.Log($"{responseJson}");
             JObject jsonObject  = JObject.Parse(responseJson);
 
-            List<string> currentRoll = jsonObject["CURRENT_ROLL"].ToObject<List<string>>();
+            List<char> currentRoll = jsonObject["CURRENT_ROLL"].ToObject<List<char>>();
 
-            
+            OnGetResponseData?.Invoke(this, currentRoll);
         }
 
         bool ConnectionError() => request.result == UnityWebRequest.Result.ConnectionError;
