@@ -18,6 +18,8 @@ public class ChangeLetterSprite : MonoBehaviour
     [SerializeField]
     private NetworkManager       _networkManager;
 
+    private bool _hasGetResponseData = false;
+
     private const int RAW_COUNT = 3;
     private const int COL_COUNT = 5;
 
@@ -82,6 +84,11 @@ public class ChangeLetterSprite : MonoBehaviour
 
     private void OnReachedMidPoint(object sender, System.EventArgs e)
     {
+        if(_hasGetResponseData)
+        {
+            return;
+        }
+
         for(int i = 0; i < RAW_COUNT; i++)
         {
             _letterRenderer[i].sprite = GetRandomSprite();
@@ -105,6 +112,8 @@ public class ChangeLetterSprite : MonoBehaviour
 
     private void OnGetResponseData(object sender, List<char> e)
     {
+        _hasGetResponseData = true;
+
         int rendererIndex = 0;
 
         for(int i = _letterID; i < e.Count; i += COL_COUNT)
@@ -113,6 +122,8 @@ public class ChangeLetterSprite : MonoBehaviour
             _letterRenderer[rendererIndex].sprite = GetSprite(responseChar - 'a');
             rendererIndex++;
         }
+
+        _hasGetResponseData = false;
     }
 
     #endregion

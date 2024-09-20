@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ColumnLetterMovement : MonoBehaviour
 {
@@ -9,12 +10,15 @@ public class ColumnLetterMovement : MonoBehaviour
     [SerializeField] private Transform      _standardPoint;
     [SerializeField] private float          _scrollSpeed;
     [SerializeField] private bool           _canMove;
+    [SerializeField] private NetworkManager _networkManager;
+    [SerializeField] private Button         _spinButton;
 
     private Vector3 _origPointPos;
     private Vector3 _midPointPos;
     private Vector3 _endPointPos;
 
-    private bool    _canFireEvent = true;
+    private bool _canFireEvent    = true;
+    private bool _hasGetResponseData = false;
 
     private const int ROW_COUNT = 3;
 
@@ -34,6 +38,14 @@ public class ColumnLetterMovement : MonoBehaviour
         _origPointPos = _standardPoint.position;
         _midPointPos  = CalculateMidPointPos();
         _endPointPos  = CalculateEndPointPos();
+
+        _networkManager.OnGetResponseData += OnGetResponseData;
+
+        _spinButton.onClick.AddListener(() => 
+        {
+            ResetToOrigPoint();
+            _canMove = true;
+        });
     }
 
     private void Update()
@@ -42,6 +54,11 @@ public class ColumnLetterMovement : MonoBehaviour
         {
             Scrolling();
         }
+    }
+
+    private void OnDestroy()
+    {
+        _networkManager.OnGetResponseData -= OnGetResponseData;
     }
 
     #endregion
@@ -96,8 +113,16 @@ public class ColumnLetterMovement : MonoBehaviour
 
         if(HasReachedEndPoint())
         {
-            OnReachedEndPoint?.Invoke(this, EventArgs.Empty);
-            ResetToOrigPoint();
+            if(_hasGetResponseData)
+            {
+                _canMove            = false;
+                _hasGetResponseData = false;
+            }
+            else
+            {
+                OnReachedEndPoint?.Invoke(this, EventArgs.Empty);
+                ResetToOrigPoint();
+            }
         }
     }
 
@@ -114,7 +139,17 @@ public class ColumnLetterMovement : MonoBehaviour
     private void ResetToOrigPoint()
     {
         _standardPoint.position = _origPointPos;
-        _canFireEvent = true;
+        _canFireEvent           = true;
+    }
+
+    #endregion
+
+    #region Event Handler Methods
+
+    private void OnGetResponseData(object sender, System.Collections.Generic.List<char> e)
+    {
+        _hasGetResponseData = true;
+        _canFireEvent       = false;
     }
 
     #endregion
